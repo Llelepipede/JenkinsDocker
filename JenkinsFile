@@ -1,0 +1,41 @@
+pipeline {
+    environment {
+        registry = "llelepipedepyro/jenkins_discord_bot"
+        credential = 'dockerhub'
+        dockerImage = ''
+
+    }
+
+    agent any
+
+    stages {
+        stage('Git CHeckout') {
+            steps {
+                checkout https://github.com/Llelepipede/JenkinsDocker
+            }
+        }
+        stage('Build Docker') {
+            steps {
+                dir ( 'app')
+                script {
+                    dockerImage = docker.build registry + ":$BUILD_NUMBER"
+                }
+            }
+        }
+        stage('Publish') {
+            steps {
+                script {
+                    docker.withRestry('',credential)
+                    dockerImage.push()
+                    dockerImage.push("latest")
+                }
+                echo "trying to publish"
+            }
+        }
+        stage('Remove Unused docker image') {
+            steps {
+                bat "docker rmi $registry:$BUILD_NUMBER"
+            }
+        }
+    }
+}
