@@ -28,9 +28,10 @@ pipeline {
         stage('Publish') {
             steps {
                 script {
-                    docker.withRestry('',credential)
+                    docker.withRegistry('',credential){
                     dockerImage.push()
                     dockerImage.push("latest")
+                    }
                 }
                 echo "trying to publish"
             }
