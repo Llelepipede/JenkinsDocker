@@ -1,6 +1,6 @@
 FROM node:13.6.0-alpine
 
-RUN mkdir -m /usr/src/app
+RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 
 COPY package*.json ./
