@@ -11,7 +11,7 @@ pipeline {
     stages {
         stage('Git CHeckout') {
             steps {
-                checkout "https://github.com/Llelepipede/JenkinsDocker"
+                checkout scm
             }
         }
         stage('Build Docker') {
